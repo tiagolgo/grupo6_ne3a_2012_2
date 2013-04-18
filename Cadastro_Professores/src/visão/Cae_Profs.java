@@ -4,9 +4,9 @@
  */
 package visão;
 
-import modelo.Endereço;
+//import modelo.Endereço;
 import modelo.Dao.Dao_Servidor;
-import modelo.Professor;
+import modelo.Pessoa.Professor;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Dao.Dao_Endereço;
@@ -497,11 +497,11 @@ public class Cae_Profs extends javax.swing.JFrame {
     private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
         // TODO add your handling code here:
         Professor alterar;
-        alterar = new Professor(this.nome.getText(), this.rg.getText(),
-                this.estado.getSelectedItem().toString(), this.expedição.getText(),
-                this.cpf.getText(), this.sexo.getSelectedItem().toString(), this.nascimento.getText());
+//        alterar = new Professor(this.nome.getText(), this.rg.getText(),
+//                this.estado.getSelectedItem().toString(), this.expedição.getText(),
+//                this.cpf.getText(), this.sexo.getSelectedItem().toString(), this.nascimento.getText());
 
-        dao.alterar(alterar, atualizaRg);
+//        dao.alterar(alterar, atualizaRg);
 
     }//GEN-LAST:event_okActionPerformed
 
@@ -524,20 +524,20 @@ public class Cae_Profs extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarActionPerformed
 
     private void preencheEndereço() {
-
-        Dao_Endereço end;
-        Endereço e;
-        end = new Dao_Endereço();
-        e = end.consultar(this.selectProfRg.getText());
-        if (e != null) {
-            this.rua.setText(e.getRua());
-            //this.número.setText(en.getNúmero());
-            this.cidade.setText(e.getCidade());
-            this.cep.setText(e.getCep());
-            this.bairro.setText(e.getBairro());
-        } else {
-            JOptionPane.showMessageDialog(null, "Erro na busca de endereço!");
-        }
+//
+//        Dao_Endereço end;
+//        Endereço e;
+//        end = new Dao_Endereço();
+//        e = end.consultar(this.selectProfRg.getText());
+//        if (e != null) {
+//            this.rua.setText(e.getRua());
+//            //this.número.setText(en.getNúmero());
+////            this.cidade.setText(e.getCidade());
+////            this.cep.setText(e.getCep());
+//            this.bairro.setText(e.getBairro());
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Erro na busca de endereço!");
+//        }
     }
     private void opçõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opçõesActionPerformed
         // TODO add your handling code here:
@@ -572,26 +572,26 @@ public class Cae_Profs extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelarActionPerformed
     private void preencheCampos(Professor prof) {
 
-        this.nome.setText(prof.getNome());
-        this.nascimento.setText(prof.getNascimento());
-        this.sexo.setSelectedItem(prof.getSexo());
-        this.rg.setText(prof.getRg());
-        this.estado.setSelectedItem(prof.getUF());
-        this.expedição.setText(prof.getExpedição());
-        this.cpf.setText(prof.getCpf());
-        this.função.setSelectedItem(prof.getFunção());
+//        this.nome.setText(prof.getNome());
+////        this.nascimento.setText(prof.getNascimento());
+//        this.sexo.setSelectedItem(prof.getSexo());
+////        this.rg.setText(prof.getRg());
+////        this.estado.setSelectedItem(prof.getUF());
+////        this.expedição.setText(prof.getExpedição());
+////        this.cpf.setText(prof.getCpf());
+//        this.função.setSelectedItem(prof.getFunção());
 
-        switch (prof.getVínculo()) {
-            case "PSS":
-                this.pss.setSelected(true);
-                break;
-            case "QPM":
-                this.qpm.setSelected(true);
-                break;
-            default:
-                this.repr.setSelected(true);
-                break;
-        }
+//        switch (prof.getVínculo()) {
+//            case "PSS":
+//                this.pss.setSelected(true);
+//                break;
+//            case "QPM":
+//                this.qpm.setSelected(true);
+//                break;
+//            default:
+//                this.repr.setSelected(true);
+//                break;
+//        }
     }
 
     private void limparCampos() {

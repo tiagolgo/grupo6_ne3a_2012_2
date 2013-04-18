@@ -4,8 +4,14 @@
  */
 package visão;
 
+import Hibernate_Daos.Dao_Disciplina;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import modelo.Pessoa.Professor;
+import modelo.curricular.Disciplina;
+import org.hibernate.Session;
 
 /**
  *
@@ -13,10 +19,20 @@ import javax.swing.table.TableColumnModel;
  */
 public class Distribuição_Tela extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Distribuição_Tela
-     */
-    private String[] nome = {"tiago", "luiz"};
+    private Professor professor;
+    private Session sessão;
+
+    public void setProfessor(Professor prof) {
+        this.professor = prof;
+        if (professor != null) {
+            preenche();
+        }
+
+    }
+
+    public void setSession(Session sessão) {
+        this.sessão = sessão;
+    }
 
     public Distribuição_Tela() {
         initComponents();
@@ -24,7 +40,7 @@ public class Distribuição_Tela extends javax.swing.JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
-    
+
 //    public Object getValueAt(int rowIndex, int columnIndex) {  
 //        Vector row = (Vector)rows.elementAt(rowIndex);  
 //        if (columnIndex==colunaNormal){  
@@ -35,7 +51,6 @@ public class Distribuição_Tela extends javax.swing.JFrame {
 //            return s;  
 //        }  
 //    } 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -60,21 +75,19 @@ public class Distribuição_Tela extends javax.swing.JFrame {
         tabela_Distribuição = new javax.swing.JTable();
         ok = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        aula = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        professor = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        inícioAula = new javax.swing.JFormattedTextField();
+        início = new javax.swing.JFormattedTextField();
         inserir = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox();
+        selecionaDisciplina = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        disciplina = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        série = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        curso = new javax.swing.JTextField();
+        buscarProfessor = new javax.swing.JButton();
+        prof = new javax.swing.JTextField();
 
         menuPopup.setBackground(new java.awt.Color(105, 128, 240));
 
@@ -140,29 +153,28 @@ public class Distribuição_Tela extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         tabela_Distribuição.setAutoCreateRowSorter(true);
         tabela_Distribuição.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Disciplina", "Curso", "Turma", "CH", "Professor", "Início"
+                "Código", "Disciplina", "Curso", "Turma", "CH", "Professor", "Início"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tabela_Distribuição.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tabela_Distribuição.setRowHeight(25);
         tabela_Distribuição.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -179,22 +191,15 @@ public class Distribuição_Tela extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Curso:");
-
-        aula.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel3.setText("Série:");
-
-        professor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Item 2", "Item 3", "Item 4" }));
-
         jLabel4.setText("Início:");
 
         try {
-            inícioAula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            início.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        inserir.setBackground(new java.awt.Color(1, 176, 14));
         inserir.setText("Inserir");
         inserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,21 +207,31 @@ public class Distribuição_Tela extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Disciplina:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel6.setText("Professor:");
 
-        jTextField1.setText("jTextField1");
+        selecionaDisciplina.setBackground(new java.awt.Color(154, 226, 123));
+        selecionaDisciplina.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        selecionaDisciplina.setText("Selecionar Aula...");
+        selecionaDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selecionaDisciplinaActionPerformed(evt);
+            }
+        });
 
-        jLabel7.setText("Vínculo:");
+        jLabel2.setText("Disciplina:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel3.setText("Série:");
 
-        jLabel8.setText("Extraordinária:");
+        jLabel5.setText("Curso:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        buscarProfessor.setBackground(new java.awt.Color(8, 119, 223));
+        buscarProfessor.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        buscarProfessor.setText("Buscar Professor...");
+        buscarProfessor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarProfessorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -224,41 +239,39 @@ public class Distribuição_Tela extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(aula, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(professor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(selecionaDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buscarProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inícioAula, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                        .addComponent(inserir))
+                        .addComponent(prof))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(disciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel3)
+                        .addGap(4, 4, 4)
+                        .addComponent(série, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(2, 2, 2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(5, 5, 5)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(início)
+                    .addComponent(curso, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,57 +280,53 @@ public class Distribuição_Tela extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(início, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(prof, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                        .addComponent(buscarProfessor)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(aula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(disciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(professor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(inícioAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inserir))
-                .addContainerGap(13, Short.MAX_VALUE))
+                    .addComponent(série, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selecionaDisciplina))
+                .addGap(18, 18, 18)
+                .addComponent(inserir)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(414, 414, 414)
                 .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)))
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(ok)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("Grade");
@@ -330,24 +339,10 @@ public class Distribuição_Tela extends javax.swing.JFrame {
         if (evt.getButton() == 1) {
             x = evt.getX();
             y = evt.getY();
-            verificaProf();
         } else if (this.tabela_Distribuição.getSelectedRow() != -1 & evt.getButton() == 3) {
             this.menuPopup.show(this.tabela_Distribuição, x, y);
-
         }
     }//GEN-LAST:event_tabela_DistribuiçãoMouseReleased
-
-    private void verificaProf() {
-        int linha = this.tabela_Distribuição.getSelectedRow(); 
-        
-        Object disc = this.tabela_Distribuição.getValueAt(linha, 1);
-        Object prof = this.tabela_Distribuição.getValueAt(linha, 5);
-
-        if (disc != null & prof == null) {
-            this.aula.setSelectedItem("Item 2");
-        }
-    }
-    
 
     private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
         // TODO add your handling code here:
@@ -362,21 +357,47 @@ public class Distribuição_Tela extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_okActionPerformed
 
+    private void buscarProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarProfessorActionPerformed
+        // TODO add your handling code here:
+        if (!(this.prof.getText().isEmpty() & this.prof.getText().equals(" "))) {
+
+            Consulta_Prof consulta_Prof = new Consulta_Prof(this);
+            consulta_Prof.setVisible(true);
+        }
+
+    }//GEN-LAST:event_buscarProfessorActionPerformed
+
+    private void selecionaDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecionaDisciplinaActionPerformed
+        // TODO add your handling code here:
+        Dao_Disciplina dp = new Dao_Disciplina(this.sessão);
+        List<Disciplina> disc_Atribuidas = dp.get_DisciplinaAtribuida(false);
+
+        if (!(disc_Atribuidas.isEmpty())) {
+            DefaultTableModel model = (DefaultTableModel) this.tabela_Distribuição.getModel();
+            for (Disciplina d : disc_Atribuidas) {
+                model.addRow(new Object[]{d.getCodigo(),d.getNome(),
+                    d.getTurma().getCurso().getNome(),
+                d.getTurma().getSerie(),d.getCargaHorária(),"",""});
+
+            }
+        }
+
+
+    }//GEN-LAST:event_selecionaDisciplinaActionPerformed
+
     private void carregarTabela() {
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) this.tabela_Distribuição.getModel();
         model.addRow(new Object[]{});
-
     }
 
     private void configuraTabela() {
         TableColumnModel columnModel = this.tabela_Distribuição.getColumnModel();
-        columnModel.getColumn(0).setMaxWidth(190);
-        columnModel.getColumn(1).setMaxWidth(70);
-        columnModel.getColumn(2).setMaxWidth(90);
-        columnModel.getColumn(3).setMaxWidth(60);
-        columnModel.getColumn(4).setMaxWidth(250);
-        columnModel.getColumn(5).setMaxWidth(100);
-
+        columnModel.getColumn(0).setMinWidth(190);
+        columnModel.getColumn(1).setMinWidth(100);
+        columnModel.getColumn(2).setMinWidth(120);
+        columnModel.getColumn(3).setMaxWidth(50);
+        columnModel.getColumn(4).setMinWidth(250);
+        columnModel.getColumn(5).setMinWidth(100);
     }
 
     /**
@@ -408,26 +429,24 @@ public class Distribuição_Tela extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Distribuição_Tela().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox aula;
+    private javax.swing.JButton buscarProfessor;
+    private javax.swing.JTextField curso;
+    private javax.swing.JTextField disciplina;
     private javax.swing.JButton inserir;
-    private javax.swing.JFormattedTextField inícioAula;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox3;
-    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JFormattedTextField início;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -444,10 +463,15 @@ public class Distribuição_Tela extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPopupMenu menuPopup;
     private javax.swing.JButton ok;
-    private javax.swing.JComboBox professor;
+    private javax.swing.JTextField prof;
+    private javax.swing.JButton selecionaDisciplina;
+    private javax.swing.JTextField série;
     private javax.swing.JTable tabela_Distribuição;
     // End of variables declaration//GEN-END:variables
+
+    private void preenche() {
+        this.prof.setText(this.professor.getNome());
+    }
 }

@@ -4,7 +4,6 @@
  */
 package modelo.Dao;
 
-import modelo.Professor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Driver_Conexão.Conexão;
+import modelo.Interface_Servidor;
+import modelo.Pessoa.Professor;
 
 /**
  *
@@ -42,20 +44,20 @@ public class Dao_Servidor implements Interface_Servidor {
 //    função enum("PROFESSOR","FUNCIONÁRIO","DIRETOR","PEDAGOGO"),
 //    id_endereço int)
             conn.setAutoCommit(false);
-            prepStatement.setString(1, professor.getNome());
-            prepStatement.setString(2, professor.getRg());
-            prepStatement.setString(3, professor.getUF());
-            prepStatement.setString(4, professor.getExpedição());
-            prepStatement.setString(5, professor.getCpf());
-            prepStatement.setString(6, professor.getSexo());
-            prepStatement.setString(7, professor.getNascimento());
-
-            //prepStatement.setInt(9, professor.getLF());
-            prepStatement.setString(8, professor.getVínculo());
-            prepStatement.setString(9, professor.isStatus());
-            prepStatement.setString(10, professor.getFunção());
-            Dao_Endereço dae = new Dao_Endereço();
-            prepStatement.setInt(11, dae.contaRegistros());
+//            prepStatement.setString(1, professor.getNome());
+//            prepStatement.setString(2, professor.getRg());
+//            prepStatement.setString(3, professor.getUF());
+//            prepStatement.setString(4, professor.getExpedição());
+//            prepStatement.setString(5, professor.getCpf());
+//            prepStatement.setString(6, professor.getSexo());
+//            prepStatement.setString(7, professor.getNascimento());
+//
+//            //prepStatement.setInt(9, professor.getLF());
+//            prepStatement.setString(8, professor.getVínculo());
+//            prepStatement.setString(9, professor.isStatus());
+//            prepStatement.setString(10, professor.getFunção());
+//            Dao_Endereço dae = new Dao_Endereço();
+//            prepStatement.setInt(11, dae.contaRegistros());
 
             prepStatement.executeUpdate();
             conn.commit();
@@ -77,17 +79,17 @@ public class Dao_Servidor implements Interface_Servidor {
             rs = prepStatement.executeQuery();
             while (rs.next()) {
 //String Nome, String Rg, String UF, String Expedição, String Cpf, String Sexo, String nascimento//           
-                aux = new Professor();
-                aux.setNome(rs.getString(2));
-                aux.setRg(rs.getString(3));
-                aux.setUF(rs.getString(4));
-                aux.setExpedição(rs.getString(5));
-                aux.setCpf(rs.getString(6));
-                aux.setSexo(rs.getString(7));
-                aux.setNascimento(rs.getString(8));
-                aux.setVínculo(rs.getString(9));
-                aux.setStatus(rs.getString(10));
-                aux.setFunção(rs.getString(11));                      
+//                aux = new Professor();
+//                aux.setNome(rs.getString(2));
+//                aux.setRg(rs.getString(3));
+//                aux.setUF(rs.getString(4));
+//                aux.setExpedição(rs.getString(5));
+//                aux.setCpf(rs.getString(6));
+//                aux.setSexo(rs.getString(7));
+//                aux.setNascimento(rs.getString(8));
+//                aux.setVínculo(rs.getString(9));
+//                aux.setStatus(rs.getString(10));
+//                aux.setFunção(rs.getString(11));                      
             }
             return aux;
 
@@ -133,13 +135,13 @@ public class Dao_Servidor implements Interface_Servidor {
         conectar(altera);
         try {
             conn.setAutoCommit(false);
-            prepStatement.setString(1, prof.getNome());
-            prepStatement.setString(2, prof.getRg());
-            prepStatement.setString(3, prof.getUF());
-            prepStatement.setString(4, prof.getExpedição());
-            prepStatement.setString(5, prof.getCpf());
-            prepStatement.setString(6, prof.getSexo());
-            prepStatement.setString(7, prof.getNascimento());
+//            prepStatement.setString(1, prof.getNome());
+//            prepStatement.setString(2, prof.getRg());
+//            prepStatement.setString(3, prof.getUF());
+//            prepStatement.setString(4, prof.getExpedição());
+//            prepStatement.setString(5, prof.getCpf());
+//            prepStatement.setString(6, prof.getSexo());
+//            prepStatement.setString(7, prof.getNascimento());
             prepStatement.setString(8, rg);
             /*
              prepStatement.setString(9, prof.isStatus());
@@ -165,7 +167,7 @@ public class Dao_Servidor implements Interface_Servidor {
         conectar(exclui);
         try {
             conn.setAutoCommit(false);
-            prepStatement.setString(1, prof.getRg());
+//            prepStatement.setString(1, prof.getRg());
             prepStatement.execute();
             conn.commit();
 

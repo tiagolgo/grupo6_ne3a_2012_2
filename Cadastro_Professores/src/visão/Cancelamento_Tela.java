@@ -5,6 +5,7 @@
 package visão;
 
 import java.util.ArrayList;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -14,19 +15,24 @@ import javax.swing.table.TableColumnModel;
 public class Cancelamento_Tela extends javax.swing.JFrame {
 
 //    private Professor cancelado;
-
-
     public Cancelamento_Tela() {
         super.setTitle("Cancelamento");
-        initComponents();
-//        configurações();
-        this.setLocationRelativeTo(null);
+        new Consulta_Prof(this).setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-   
+
+    public void buscaProfessor(Boolean flag) {
+        if (flag) {
+            initComponents();
+//        configurações();
+            this.setLocationRelativeTo(null);
+        }
+    }
+
     public void setProfessor(String nn) {
-        this.professor.setEditable(true);
+        buscaProfessor(true);
         this.professor.setText(nn);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -48,8 +54,7 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
         motivo = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         inscrição = new javax.swing.JTextField();
-        professor = new javax.swing.JTextField();
-        buscar = new javax.swing.JButton();
+        professor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -166,12 +171,7 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
 
         jLabel8.setText("Inscrição:");
 
-        buscar.setText("Selecionar");
-        buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscarActionPerformed(evt);
-            }
-        });
+        professor.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,31 +182,30 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(professor, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(283, 283, 283)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(inserir)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(349, 349, 349))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(motivo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inscrição, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(professor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(motivo)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(inscrição, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -218,9 +217,8 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
                     .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(professor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                    .addComponent(professor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -259,11 +257,6 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        // TODO add your handling code here:
-        new Consulta_Prof(this).setVisible(true);
-    }//GEN-LAST:event_buscarActionPerformed
-
     private void configurações() {
         TableColumnModel cm = this.tabelaCancelamento.getColumnModel();
         cm.getColumn(0).setMaxWidth(250);
@@ -272,7 +265,7 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
         cm.getColumn(3).setMaxWidth(110);
         cm.getColumn(4).setMaxWidth(70);
         cm.getColumn(5).setMaxWidth(70);
-        
+
 //        this.professor.setEditable(false);
 //        this.professor.setEnabled(false);
 
@@ -314,7 +307,6 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buscar;
     private javax.swing.JFormattedTextField data;
     private javax.swing.JTextField inscrição;
     private javax.swing.JButton inserir;
@@ -329,7 +321,7 @@ public class Cancelamento_Tela extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField motivo;
-    public javax.swing.JTextField professor;
+    private javax.swing.JLabel professor;
     private javax.swing.JTable tabelaCancelamento;
     // End of variables declaration//GEN-END:variables
 }

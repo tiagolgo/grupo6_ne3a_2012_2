@@ -1,56 +1,107 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
 
-/**
- *
- * @author Meus Documentos
- */
-public class Afastamento {
-    private int id;
-    private Professor afastado;
-    private int dataAfast, início, fim;
-    private String motivo;
+import java.io.Serializable;
+import modelo.Pessoa.Professor;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import modelo.curricular.Disciplina;
 
-    public Professor getAfastado() {
-        return afastado;
+@Entity
+public class Afastamento implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private int id;
+//    @Column(length = 8)
+    private String dataAfastamento;
+//    @Column(length = 8)
+    private String inicioAfastamento;
+//    @Column(length = 8)
+    private String fimAfastamento;
+    private boolean suprido;
+//    @Column(length = 30)
+    private String motivo;
+    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_Afastamento")
+    private Professor afastado;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_Afastamento")
+    private List<Disciplina> disciplina;
+
+    public Afastamento() {
+        this.disciplina=new ArrayList();
+    }
+
+    //Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDataAfastamento(String dataAfastamento) {
+        this.dataAfastamento = dataAfastamento;
+    }
+
+    public void setInicioAfastamento(String inicioAfastamento) {
+        this.inicioAfastamento = inicioAfastamento;
+    }
+
+    public void setFimAfastamento(String fimAfastamento) {
+        this.fimAfastamento = fimAfastamento;
+    }
+
+    public void setSuprido(boolean suprido) {
+        this.suprido = suprido;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
     public void setAfastado(Professor afastado) {
         this.afastado = afastado;
     }
 
-    public int getDataAfast() {
-        return dataAfast;
+    public void setDisciplina(List<Disciplina> disciplina) {
+        this.disciplina = disciplina;
     }
 
-    public void setDataAfast(int dataAfast) {
-        this.dataAfast = dataAfast;
+    //Getters
+    public int getId() {
+        return id;
     }
 
-    public int getInício() {
-        return início;
+    public String getDataAfastamento() {
+        return dataAfastamento;
     }
 
-    public void setInício(int início) {
-        this.início = início;
+    public String getInicioAfastamento() {
+        return inicioAfastamento;
     }
 
-    public int getFim() {
-        return fim;
+    public String getFimAfastamento() {
+        return fimAfastamento;
     }
 
-    public void setFim(int fim) {
-        this.fim = fim;
+    public boolean isSuprido() {
+        return suprido;
     }
 
     public String getMotivo() {
         return motivo;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }    
+    public Professor getAfastado() {
+        return afastado;
+    }
+
+    public List<Disciplina> getDisciplinas() {
+        return disciplina;
+    }
 }

@@ -4,14 +4,15 @@
  */
 package modelo.Dao;
 
-import modelo.Disciplina;
-import modelo.Endereço;
+import modelo.curricular.Disciplina;
+//import modelo.Endereco;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Driver_Conexão.Conexão;
 
 /**
  *
@@ -23,16 +24,16 @@ public class Dao_Endereço {
     private Connection conn;
     private PreparedStatement prepStatement;
 
-    public boolean inserir(Endereço end) {
+    public boolean inserir() {
         String insere = "INSERT INTO endereço VALUES(null,?,?,?,?,?)";
         conectar(insere);
         try {
             conn.setAutoCommit(false);
-            this.prepStatement.setString(1, end.getRua());
-            this.prepStatement.setInt(2, end.getNúmero());
-            this.prepStatement.setString(3, end.getBairro());
-            this.prepStatement.setString(4, end.getCidade());
-            this.prepStatement.setString(5, end.getCep());
+//            this.prepStatement.setString(1, end.getRua());
+//            this.prepStatement.setInt(2, end.getNúmero());
+//            this.prepStatement.setString(3, end.getBairro());
+//            this.prepStatement.setString(4, end.getCidade());
+//            this.prepStatement.setString(5, end.getCep());
 
             this.prepStatement.execute();
             conn.commit();
@@ -47,37 +48,37 @@ public class Dao_Endereço {
 
     }
 
-    public Endereço consultar(String rg) {//consultar endereço de professor
-        String consultar = "select*from endereço e where e.id= (select p.id_endereço from professor p where p.rg=?)";
-        conectar(consultar);
-        ResultSet rs;
-        Endereço aux = null;
-        try {
-            this.prepStatement.setString(1, rg);
-            rs = this.prepStatement.executeQuery();
-            while (rs.next()) {
-                aux = new Endereço(rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
-            }
-            return aux;
-        } catch (SQLException ex) {
-            Logger.getLogger(Dao_Disciplina.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } finally {
-            fechar();
-        }
-    }
+//    public Endereço consultar(String rg) {//consultar endereço de professor
+//        String consultar = "select*from endereço e where e.id= (select p.id_endereço from professor p where p.rg=?)";
+//        conectar(consultar);
+//        ResultSet rs;
+//        Endereço aux = null;
+//        try {
+//            this.prepStatement.setString(1, rg);
+//            rs = this.prepStatement.executeQuery();
+//            while (rs.next()) {
+//                aux = new Endereço(rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
+//            }
+//            return aux;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Dao_Disciplina.class.getName()).log(Level.SEVERE, null, ex);
+//            return null;
+//        } finally {
+//            fechar();
+//        }
+//    }
 
-    public void alterar(String end, Endereço d) {
+    public void alterar(String end) {
         String altera = "UPDATE endereço SET rua=?, número=?, bairro=?, cidade=?, cep=?";
         conectar(altera);
         try {
 
             conn.setAutoCommit(false);
-            this.prepStatement.setString(1, d.getRua());
-            this.prepStatement.setInt(2, d.getNúmero());
-            this.prepStatement.setString(3, d.getBairro());
-            this.prepStatement.setString(4, d.getCidade());
-            this.prepStatement.setString(5, d.getCep());
+//            this.prepStatement.setString(1, d.getRua());
+//            this.prepStatement.setInt(2, d.getNúmero());
+//            this.prepStatement.setString(3, d.getBairro());
+//            this.prepStatement.setString(4, d.getCidade());
+//            this.prepStatement.setString(5, d.getCep());
             this.prepStatement.executeUpdate();
             conn.commit();
 
@@ -88,12 +89,12 @@ public class Dao_Endereço {
         }
     }
 
-    public void excluir(Endereço d) {
+    public void excluir() {
         String exclui = "DELETE FROM endereço WHERE rua=?";
         conectar(exclui);
         try {
             conn.setAutoCommit(false);
-            this.prepStatement.setString(1, d.getRua());
+//            this.prepStatement.setString(1, d.getRua());
             this.prepStatement.execute();
             conn.commit();
         } catch (SQLException ex) {

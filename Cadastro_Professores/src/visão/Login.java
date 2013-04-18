@@ -96,12 +96,11 @@ public class Login extends javax.swing.JFrame {
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
         // TODO add your handling code here:
-        if(this.senha.equals("tiago")){
-//        PáginaInicial p=new PáginaInicial();
-//        p.setVisible(true);
-//        this.dispose();
-            System.out.println("ok");
-        }
+//        if(this.senha.equals(nome)){
+        PáginaInicial p=new PáginaInicial();
+        p.setVisible(true);
+        this.dispose();
+//        }
     }//GEN-LAST:event_entrarActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
