@@ -1,20 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Hibernate_Daos;
 
 //import Tarefa.Estoque;
-import Sessão.Sessão;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-/**
- *
- * @author Tiago
- */
-class Dao_Basic {
+class Dao_Basic<T> {
 
     public Session session;
 
@@ -40,18 +32,22 @@ class Dao_Basic {
     }
 
     //retorna lista de objetos
-    public List retornaObjetos(Object obj) {
-        List list = session.createCriteria(obj.getClass()).list();
+    public List retornaObjetos() {
+        List list = session.createCriteria(this.getClass()).list();
         return list;
     }
 
     //retorna um objeto pelo ID
-    public Object retornaObjetoId(Object obj, Integer id) {
-        Object estoque = session.get(obj.getClass(), id);
+    public Object retornaObjetoId(Integer id) {
+        Object estoque = session.get(this.getClass(), id);
         return estoque;
     }
 
     public void fechaSessão() {
         this.session.close();
+    }
+    
+    public String retornaTipo(){
+        return this.getClass().toString();
     }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,9 +30,9 @@ public class Afastamento implements Serializable {
 //    @Column(length = 30)
     private String motivo;
     @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id_Afastamento")
+    @JoinColumn(name = "id_Afastado")
     private Professor afastado;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_Afastamento")
     private List<Disciplina> disciplina;
 
@@ -71,6 +72,10 @@ public class Afastamento implements Serializable {
     public void setDisciplina(List<Disciplina> disciplina) {
         this.disciplina = disciplina;
     }
+    
+    public void setDisciplina(Disciplina d){
+        this.disciplina.add(d);
+    }
 
     //Getters
     public int getId() {
@@ -103,5 +108,10 @@ public class Afastamento implements Serializable {
 
     public List<Disciplina> getDisciplinas() {
         return disciplina;
+    }
+
+    @Override
+    public String toString() {
+        return "Afastamento{" + "id=" + id + ", dataAfastamento=" + dataAfastamento + ", inicioAfastamento=" + inicioAfastamento + ", fimAfastamento=" + fimAfastamento + ", suprido=" + suprido + ", motivo=" + motivo + '}';
     }
 }

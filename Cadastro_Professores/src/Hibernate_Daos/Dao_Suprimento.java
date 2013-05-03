@@ -36,4 +36,9 @@ public class Dao_Suprimento extends Dao_Basic {
 
     public void consulta_ProfessorNome(String nome) {
     }
+    
+    public void persistir(Object o){
+        this.session.save(o);
+        this.retornaTransaction().commit();
+    }
 }

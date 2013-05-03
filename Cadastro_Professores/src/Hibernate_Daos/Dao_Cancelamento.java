@@ -4,7 +4,6 @@
  */
 package Hibernate_Daos;
 
-import Sessão.Sessão;
 import modelo.Cancelamento;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;

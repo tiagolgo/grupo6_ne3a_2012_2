@@ -3,9 +3,11 @@ package modelo;
 import java.io.Serializable;
 import modelo.Pessoa.Professor;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,16 +21,22 @@ public class Cancelamento implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    @Column(length = 8)
+    
+//    @Column(length = 8)
     private String data_Cancelamento;
-    @Column(length = 30)
+    
+//    @Column(length = 30)
     private String motivo;
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_professor")
     private Professor professor;
-    @OneToMany(cascade = CascadeType.ALL)
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_Cancelamento")
-    private ArrayList<Disciplina> disciplina;
+    private List<Disciplina> disciplina;
+    
+    private int inscrição;
 
     public Cancelamento() {
         this.disciplina = new ArrayList();
@@ -51,13 +59,19 @@ public class Cancelamento implements Serializable {
         this.professor = professor;
     }
 
-    public void setDisciplinas(ArrayList<Disciplina> disciplina) {
+    public void setDisciplinas(List<Disciplina> disciplina) {
         this.disciplina = disciplina;
     }
     
     public void setDisciplina(Disciplina d){
         this.disciplina.add(d);
     }
+
+    public void setInscrição(int inscrição) {
+        this.inscrição = inscrição;
+    }
+    
+    
 
     //Getters
     public int getId() {
@@ -76,7 +90,12 @@ public class Cancelamento implements Serializable {
         return professor;
     }
 
-    public ArrayList<Disciplina> getDisciplina() {
+    public List<Disciplina> getDisciplina() {
         return disciplina;
     }
+
+    public int getInscrição() {
+        return inscrição;
+    }
+    
 }

@@ -1,36 +1,38 @@
 package modelo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import modelo.Pessoa.Professor;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import modelo.curricular.Disciplina;
-import org.hibernate.annotations.Entity;
 
 @Entity
-public class Substituicao {
+public class Substituicao implements Serializable {
 
     @Id
     @GeneratedValue
     private int id;
     @Column(length = 8)
-    private String data;
+    private String dataSubstituicao;
     @Column(length = 8)
     private String dataInicio;
-    @Column(length = 30)
-    private String motivo;
+//    @Column(length = 30)
+//    private String motivo;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id_Substituicao")
-    private Afastamento afastamento;
+    @JoinColumn(name="id_Afastamento")
+    private Professor afastado;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_Substituicao")
+    @JoinColumn(name = "id_Substituto")
     private Professor substituto;
     
     @OneToMany(cascade = CascadeType.ALL)
@@ -38,6 +40,7 @@ public class Substituicao {
     private List<Disciplina> disciplinas;
     
     public Substituicao() {
+        this.disciplinas=new ArrayList();
     }
 
     //Setters
@@ -45,20 +48,24 @@ public class Substituicao {
         this.id = id;
     }
 
-    public void setData(String data) {
-        this.data = data;
-    }
-
     public void setDataSubstituicao(String dataSubstituicao) {
-        this.dataInicio = dataSubstituicao;
+        this.dataSubstituicao = dataSubstituicao;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
+    public void setDataInicio(String dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public void setAfastamento(Afastamento afastamento) {
-        this.afastamento = afastamento;
+//    public void setMotivo(String motivo) {
+//        this.motivo = motivo;
+//    }
+
+    public void setAfastado(Professor prof) {
+        this.afastado = prof;
+    }
+    
+    public void setDisciplina(Disciplina d){
+        this.disciplinas.add(d);
     }
 
     public void setDisciplina(List<Disciplina> disciplina) {
@@ -66,7 +73,7 @@ public class Substituicao {
     }
 
     public void setSubstituto(Professor substituto) {
-        this.substituto = substituto;
+        this.substituto=substituto;
     }
 
     //Getters
@@ -74,20 +81,20 @@ public class Substituicao {
         return id;
     }
 
-    public String getData() {
-        return data;
+    public String getDataSubstituicao() {
+        return dataSubstituicao;
     }
 
-    public String getDataSubstituicao() {
+    public String getDataInicio() {
         return dataInicio;
     }
 
-    public String getMotivo() {
-        return motivo;
-    }
+//    public String getMotivo() {
+//        return motivo;
+//    }
 
-    public Afastamento getAfastamento() {
-        return afastamento;
+    public Professor getAfastado() {
+        return afastado;
     }
 
     public List<Disciplina> getDisciplina() {

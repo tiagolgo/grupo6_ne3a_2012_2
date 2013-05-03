@@ -19,16 +19,12 @@ public class Sessão {
 
     public Session retornaSession() {
         SessionFactory factory = getFactory();
-        
         return factory.openSession();
     }
 
     private SessionFactory getFactory() {
         AnnotationConfiguration configuration = new AnnotationConfiguration().configure();
-//        configuration.configure();
-
         SessionFactory factori = configuration.buildSessionFactory();
-        
         return factori;
     }
 }

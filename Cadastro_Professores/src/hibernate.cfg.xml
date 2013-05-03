@@ -26,8 +26,12 @@
         <mapping class="modelo.curricular.Disciplina"/>  
         <mapping class="modelo.curricular.Turma"/>  
         <mapping class="modelo.curricular.Curso"/>  
+     
         
         <mapping class="modelo.Afastamento"/>  
+        <mapping class="modelo.Suprimento"/>  
+        <mapping class="modelo.Cancelamento"/>  
+        <mapping class="modelo.Substituicao"/>  
         
             
           

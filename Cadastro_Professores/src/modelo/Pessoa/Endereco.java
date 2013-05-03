@@ -1,13 +1,10 @@
 package modelo.Pessoa;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Endereco implements Serializable {
@@ -22,9 +19,8 @@ public class Endereco implements Serializable {
     private String bairro;
     @Column(length = 9)
     private String cep;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_municipio")
-    private Municipio municipio;
+    private String municipio;
+    private String estado;
 
     public Endereco() {
     }
@@ -50,9 +46,16 @@ public class Endereco implements Serializable {
         this.cep = cep;
     }
 
-    public void setMunicipio(Municipio municipio) {
+ 
+    public void setMunicipio(String municipio) {
         this.municipio = municipio;
     }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    
 
     //Getters
     public int getId() {
@@ -75,10 +78,15 @@ public class Endereco implements Serializable {
         return cep;
     }
 
-    public Municipio getMunicipio() {
+    public String getMunicipio() {
         return municipio;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+  
     @Override
     public String toString() {
         return "Endereco{" + "id=" + id + ", rua=" + rua + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep + ", municipio=" + municipio + '}';

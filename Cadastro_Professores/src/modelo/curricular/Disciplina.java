@@ -4,11 +4,12 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 //import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+//import javax.persistence.OneToOne;
 
 @Entity
 public class Disciplina implements Serializable {
@@ -21,12 +22,12 @@ public class Disciplina implements Serializable {
 //    @Column(length = 10)
     private String nome;
 //    @Column(length = 2)
-    private int CargaHorária;
+    private int cargaHoraria;
     private boolean atribuida;
-    private Comp_Curricular compCurricular;
+    private String compCurricular;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Disciplina")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_Turma")
     private Turma turma;
 
     public Disciplina() {
@@ -46,14 +47,14 @@ public class Disciplina implements Serializable {
     }
 
     public void setCargaHorária(int ch) {
-        this.CargaHorária = ch;
+        this.cargaHoraria = ch;
     }
 
     public void setAtribuida(boolean atribuida) {
         this.atribuida = atribuida;
     }
    
-    public void setCompCurricular(Comp_Curricular compCurricular) {
+    public void setCompCurricular(String compCurricular) {
         this.compCurricular = compCurricular;
     }
 
@@ -62,7 +63,6 @@ public class Disciplina implements Serializable {
     }
     
     
-
     //Getters
     public int getId() {
         return id;
@@ -77,14 +77,14 @@ public class Disciplina implements Serializable {
     }
 
     public int getCargaHorária() {
-        return CargaHorária;
+        return cargaHoraria;
     }
 
     public boolean isAtribuida() {
         return atribuida;
     }
     
-    public Comp_Curricular getCompCurricular() {
+    public String getCompCurricular() {
         return compCurricular;
     }
 
@@ -95,6 +95,6 @@ public class Disciplina implements Serializable {
     
     @Override
     public String toString() {
-        return "Disciplina:" + codigo + "-" + nome + ", CargaHor\u00e1ria=" + CargaHorária + ", compCurricular=" + compCurricular;
+        return "Disciplina:" + codigo + "-" + nome + ", CargaHor\u00e1ria=" + cargaHoraria + ", compCurricular=" + compCurricular;
     }
 }

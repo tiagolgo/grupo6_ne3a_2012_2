@@ -3,6 +3,7 @@ package modelo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import modelo.Pessoa.Professor;
@@ -19,15 +20,15 @@ public class Suprimento implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    @Column(length = 8)
-    private int data_Suprimento;
-    @Column(length = 8)
-    private int dataAssumiu;
+//    @Column(length = 8)
+    private String data_Suprimento;
+//    @Column(length = 8)
+    private String dataAssumiu;
     @OneToOne
     @JoinColumn(name="id_professor")
     private Professor professor;
-    @OneToMany
-    @JoinColumn(name="id_aula")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="id_Suprimento")
     private List<Disciplina> disciplinas;
 
     public Suprimento() {
@@ -39,11 +40,11 @@ public class Suprimento implements Serializable {
         this.id = id;
     }
 
-    public void setData(int data) {
+    public void setData(String data) {
         this.data_Suprimento = data;
     }
 
-    public void setDataAssumiu(int dataAssumiu) {
+    public void setDataAssumiu(String dataAssumiu) {
         this.dataAssumiu = dataAssumiu;
     }
 
@@ -54,17 +55,21 @@ public class Suprimento implements Serializable {
     public void setDisciplinas(List<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
     }
+    
+    public void setDisciplina(Disciplina disc){
+        this.disciplinas.add(disc);
+    }
 
     //Getters
     public int getId() {
         return id;
     }
 
-    public int getData() {
+    public String getData() {
         return data_Suprimento;
     }
 
-    public int getDataAssumiu() {
+    public String getDataAssumiu() {
         return dataAssumiu;
     }
 
@@ -75,4 +80,6 @@ public class Suprimento implements Serializable {
     public List<Disciplina> getDisciplinas() {
         return disciplinas;
     }  
+
+    
 }

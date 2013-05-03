@@ -6,17 +6,20 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Tiago
  */
 @Entity
+@Table(name = "turma")
 public class Turma implements Serializable {
 
     @Id
@@ -29,7 +32,7 @@ public class Turma implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_Curso")
     private Curso curso;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_Turma")
     private List<Disciplina> disciplina;
 
@@ -62,6 +65,10 @@ public class Turma implements Serializable {
         this.disciplina.add(d);
     }
 
+    public void setDisciplinas(List<Disciplina> d) {
+        this.disciplina = d;
+    }
+
     //Getters
     public int getId() {
         return id;
@@ -85,5 +92,10 @@ public class Turma implements Serializable {
 
     public List<Disciplina> getDisciplinas() {
         return disciplina;
+    }
+
+    @Override
+    public String toString() {
+        return serie + seriacao + " - " + turno;
     }
 }

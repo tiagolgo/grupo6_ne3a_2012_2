@@ -26,4 +26,8 @@ public class Dao_Curso extends Dao_Basic {
     public List retorna_CursoCodigo(int codigo) {
         return this.session.createCriteria(Curso.class).add(Restrictions.eq("codigo", codigo)).list();
     }
+    
+    public List todos(){
+        return this.session.createCriteria(Curso.class).list();
+    }
 }

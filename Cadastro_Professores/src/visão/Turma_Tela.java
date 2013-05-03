@@ -4,29 +4,36 @@
  */
 package visão;
 
+import Hibernate_Daos.Dao_Curso;
+import Hibernate_Daos.Dao_Turma;
+import Sessão.Sessão;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.curricular.Curso;
+import modelo.curricular.Turma;
+import org.hibernate.Session;
 
-/**
- *
- * @author Meus Documentos
- */
 public class Turma_Tela extends javax.swing.JFrame {
 
     private int linhaEditar;
     private boolean edita;
+    private Session sessão;
+    private List<Curso> cursos;
 
-    /**
-     * Creates new form Turma_Tela
-     */
     public Turma_Tela() {
         initComponents();
         this.edita = false;
+        this.sessão = new Sessão().retornaSession();
+        preencheComboCurso();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    //
     public static void main(String[] args) {
         Turma_Tela t = new Turma_Tela();
         t.setVisible(true);
@@ -51,8 +58,8 @@ public class Turma_Tela extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaTurma = new javax.swing.JTable();
         série = new javax.swing.JComboBox();
-        turma = new javax.swing.JComboBox();
-        ok = new javax.swing.JButton();
+        seriação = new javax.swing.JComboBox();
+        inserir = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         turmasInseridas = new javax.swing.JLabel();
@@ -84,7 +91,7 @@ public class Turma_Tela extends javax.swing.JFrame {
 
         label_4.setText("Curso:");
 
-        curso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Item 1", "Item 2", "Item 3", "Item 4" }));
+        curso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
 
         turno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Manhã", "Tarde", "Noite", "Integral" }));
 
@@ -142,20 +149,20 @@ public class Turma_Tela extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelaTurma);
 
-        série.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "1ª", "2ª", "3ª", "4ª", "5ª", "6ª", "7ª", "8ª", "9ª" }));
+        série.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
 
-        turma.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" }));
+        seriação.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" }));
 
-        ok.setBackground(new java.awt.Color(0, 204, 0));
-        ok.setText("Inserir");
-        ok.addActionListener(new java.awt.event.ActionListener() {
+        inserir.setBackground(new java.awt.Color(0, 204, 0));
+        inserir.setText("Inserir");
+        inserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okActionPerformed(evt);
+                inserirActionPerformed(evt);
             }
         });
-        ok.addKeyListener(new java.awt.event.KeyAdapter() {
+        inserir.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                okKeyReleased(evt);
+                inserirKeyReleased(evt);
             }
         });
 
@@ -205,7 +212,7 @@ public class Turma_Tela extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(label_2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(turma, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(seriação, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(label_3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -214,8 +221,8 @@ public class Turma_Tela extends javax.swing.JFrame {
                         .addComponent(label_4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(curso, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(104, 104, 104)
+                        .addComponent(inserir))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -227,7 +234,7 @@ public class Turma_Tela extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_1)
                     .addComponent(label_2)
@@ -236,25 +243,24 @@ public class Turma_Tela extends javax.swing.JFrame {
                     .addComponent(curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(turno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(série, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(turma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ok))
+                    .addComponent(seriação, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inserir))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                 .addGap(27, 27, 27)
                 .addComponent(sair)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    //
     int x = 0, y = 0;
     private void tabelaTurmaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaTurmaMouseReleased
-        // TODO add your handling code here:
-
         if (evt.getButton() == 1) {
             x = evt.getX();
             y = evt.getY();
@@ -264,29 +270,57 @@ public class Turma_Tela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabelaTurmaMouseReleased
 
+    //
     private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_sairActionPerformed
 
-    private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
-        // TODO add your handling code here:
+    //
+    private void inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirActionPerformed
         if (verificaCombos()) {
             if (edita) {
                 insereAlteração();
             } else {
-                preencheTabela();
+                persistir();
             }
         }
         this.tabelaTurma.setFocusable(false);
         this.série.setSelectedIndex(0);
-        
-    }//GEN-LAST:event_okActionPerformed
+        this.seriação.setSelectedIndex(0);
+        this.curso.setSelectedIndex(0);
+        this.turno.setSelectedIndex(0);
+    }//GEN-LAST:event_inserirActionPerformed
+
+    private void persistir() {
+
+        if (verificaBanco_Turma()) {
+            Dao_Turma dt = new Dao_Turma(this.sessão);
+            Turma t = new Turma();
+            t.setSerie(Integer.parseInt(this.série.getSelectedItem().toString()));
+            t.setSeriacao(this.seriação.getSelectedItem().toString());
+            t.setTurno(this.turno.getSelectedItem().toString());
+
+            for (Curso c : cursos) {
+                if (c.getNome().equals(this.curso.getSelectedItem().toString())) {
+                    t.setCurso(c);
+                }
+            }
+
+            try {
+                dt.persiste(t);
+            } catch (Exception ex) {
+                Logger.getLogger(Turma_Tela.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            preencheTabela();
+        }
+
+    }
+
+    //
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
-        // TODO add your handling code here:
         int linha = this.tabelaTurma.getSelectedRow();
         this.série.setSelectedItem(this.tabelaTurma.getValueAt(linha, 0));
-        this.turma.setSelectedItem(this.tabelaTurma.getValueAt(linha, 1));
+        this.seriação.setSelectedItem(this.tabelaTurma.getValueAt(linha, 1));
         this.turno.setSelectedItem(this.tabelaTurma.getValueAt(linha, 2));
         this.curso.setSelectedItem(this.tabelaTurma.getValueAt(linha, 3));
 
@@ -294,31 +328,45 @@ public class Turma_Tela extends javax.swing.JFrame {
         this.linhaEditar = linha;
     }//GEN-LAST:event_EditarActionPerformed
 
+    //
     private void ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirActionPerformed
-        // TODO add your handling code here:
         javax.swing.table.DefaultTableModel model;
         model = (DefaultTableModel) this.tabelaTurma.getModel();
 
         model.removeRow(this.tabelaTurma.getSelectedRow());
     }//GEN-LAST:event_ExcluirActionPerformed
 
-    private void okKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_okKeyReleased
-        // TODO add your handling code here:
-        okActionPerformed(null);
+    //
+    private void inserirKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inserirKeyReleased
+    }//GEN-LAST:event_inserirKeyReleased
 
-    }//GEN-LAST:event_okKeyReleased
+    private boolean verificaBanco_Turma() {
+        Dao_Turma dt = new Dao_Turma(this.sessão);
+        Turma result =
+                dt.verificaExistência(
+                Integer.parseInt(this.série.getSelectedItem().toString()),
+                this.seriação.getSelectedItem().toString(),
+                this.turno.getSelectedItem().toString());
+        
+                this.curso.getSelectedItem().toString();
+        if (!(result == null)) {
+            JOptionPane.showMessageDialog(null, "Não é possível inserir.\nA Turma em questão já está cadastrada!");
+            return false;
+        }
+        return true;
+    }
 
     private void preencheTabela() {
         javax.swing.table.DefaultTableModel model;
         model = (DefaultTableModel) this.tabelaTurma.getModel();//pegar modelo da tabela
-        model.addRow(new Object[]{this.série.getSelectedItem(), this.turma.getSelectedItem(), this.turno.getSelectedItem(), this.curso.getSelectedItem()});//adicionar linha na tabela
-        
+        model.addRow(new Object[]{this.série.getSelectedItem(), this.seriação.getSelectedItem(), this.turno.getSelectedItem(), this.curso.getSelectedItem()});//adicionar linha na tabela
+
         desmarcaCombos();
     }
 
     private void insereAlteração() {
         this.tabelaTurma.setValueAt(this.série.getSelectedItem(), this.linhaEditar, 0);
-        this.tabelaTurma.setValueAt(this.turma.getSelectedItem(), this.linhaEditar, 1);
+        this.tabelaTurma.setValueAt(this.seriação.getSelectedItem(), this.linhaEditar, 1);
         this.tabelaTurma.setValueAt(this.turno.getSelectedItem(), this.linhaEditar, 2);
         this.tabelaTurma.setValueAt(this.curso.getSelectedItem(), this.linhaEditar, 3);
 
@@ -328,28 +376,43 @@ public class Turma_Tela extends javax.swing.JFrame {
 
     private void desmarcaCombos() {//por padrão os ComboBoxes devem possuir a posição 0 vazia
         this.série.setSelectedIndex(0);
-        this.turma.setSelectedIndex(0);
+        this.seriação.setSelectedIndex(0);
         this.turno.setSelectedIndex(0);
         this.curso.setSelectedIndex(0);
     }
 
     private boolean verificaCombos() {
         boolean ser = this.série.getSelectedItem().equals("");
-        boolean tur = this.turma.getSelectedItem().equals("");
+        boolean tur = this.seriação.getSelectedItem().equals("");
         boolean turn = this.turno.getSelectedItem().equals("");
         boolean cur = this.curso.getSelectedItem().equals("");
 
         if (ser || tur || turn || cur) {
             JOptionPane.showMessageDialog(null, "Operação não executada, há campos em branco!");
-            this.ok.transferFocus();
+            this.inserir.transferFocus();
             return false;
         }
         return true;
+    }
+
+    private void preencheComboCurso() {
+        Dao_Curso dc = new Dao_Curso(this.sessão);
+        this.cursos = dc.todos();
+
+        if (!(cursos.isEmpty())) {
+            for (Curso c : cursos) {
+                this.curso.addItem(c.getNome());
+            }
+        } else {
+            //chamar tela de cadastro de curso
+            JOptionPane.showMessageDialog(null, "Não há Cursos cadastrados!\nCadastrar Curso?");
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Editar;
     private javax.swing.JMenuItem Excluir;
     protected javax.swing.JComboBox curso;
+    private javax.swing.JButton inserir;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -359,11 +422,10 @@ public class Turma_Tela extends javax.swing.JFrame {
     protected javax.swing.JLabel label_3;
     protected javax.swing.JLabel label_4;
     private javax.swing.JPopupMenu menuPopup;
-    private javax.swing.JButton ok;
     private javax.swing.JButton sair;
+    protected javax.swing.JComboBox seriação;
     protected javax.swing.JComboBox série;
     protected javax.swing.JTable tabelaTurma;
-    protected javax.swing.JComboBox turma;
     protected javax.swing.JLabel turmasInseridas;
     protected javax.swing.JComboBox turno;
     protected javax.swing.JLabel título;

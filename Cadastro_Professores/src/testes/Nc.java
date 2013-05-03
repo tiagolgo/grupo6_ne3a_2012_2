@@ -4,22 +4,21 @@
  */
 package testes;
 
+import Arquivo.Arquivo_Estados;
+import java.util.List;
+
+
 /**
  *
  * @author Tiago
  */
 public class Nc {
-    private int i;
-    
-    public Nc(int i){
-        verifica(i);
-        this.i=i;
-    }
-    
-    boolean verifica(int i){
-        if(i!=3){
-        return false;
-        }
-        return true;
+
+    public static void main(String[] args) {
+//        Arquivo_Estados ae=new Arquivo_Estados("Paraná");
+//        List<String> listaMunicipios = ae.listaMunicipios();
+//        for (String string : listaMunicipios) {
+//            System.out.println(string);
+//        }
     }
 }

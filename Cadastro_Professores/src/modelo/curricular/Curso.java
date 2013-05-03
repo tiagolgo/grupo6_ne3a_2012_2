@@ -1,7 +1,7 @@
 package modelo.curricular;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+//import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,9 +12,9 @@ public class Curso implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    @Column(length = 15)
+//    @Column(length = 30)
     private String nome;
-    @Column(length = 5)
+//    @Column(length = 7)
     private int codigo;
 
     public Curso() {

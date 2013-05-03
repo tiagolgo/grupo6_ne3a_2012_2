@@ -5,6 +5,7 @@
 package modelo.Pessoa;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,9 +20,9 @@ public class RG implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-//    @Column(length = 9)
+    @Column(length = 9, unique = true)
     private Long número;
-//    @Column(length = 8)
+    @Column(length = 8)
     private String emissão;
     private String estado;
 

@@ -6,7 +6,10 @@ package Hibernate_Daos;
 
 import Sessão.Sessão;
 import java.util.List;
+import modelo.Afastamento;
+import modelo.Pessoa.Professor;
 import modelo.Substituicao;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -44,5 +47,10 @@ public class Dao_Substituicao extends Dao_Basic {
     }
 
     public void getSubst_AfastadoCpf(Long cpf) {
+    }
+    
+    public List retornaTodos(){
+        List list = this.session.createSQLQuery("select a.id_Afastado from Afastamento a").list();
+        return this.session.createQuery("from Professor p where p.id in (:ids)").setParameterList("ids", list).list();
     }
 }

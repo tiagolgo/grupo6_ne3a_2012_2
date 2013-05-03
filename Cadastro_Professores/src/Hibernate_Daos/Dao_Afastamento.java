@@ -35,4 +35,14 @@ public class Dao_Afastamento extends Dao_Basic {
     public List afastamentoNãoSuprido(){
         return this.session.createCriteria(Afastamento.class).add(Restrictions.eq("suprido", false)).list();
     }
+    
+    public Afastamento afastamentoIdProfessor(int id){
+        return (Afastamento) this.session.createQuery(
+                "from Afastamento where id_Afastado = :id")
+                .setParameter("id", id).uniqueResult();
+    }
+    
+    public List retornaTodos(){
+        return this.session.createCriteria(Afastamento.class).list();
+    }
 }

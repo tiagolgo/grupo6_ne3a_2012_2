@@ -4,8 +4,10 @@
  */
 package visão;
 
+import java.awt.Component;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import modelo.Pessoa.Professor;
-import visão.outras.Disciplina_Tela;
 
 /**
  *
@@ -37,7 +39,7 @@ public class PáginaInicial extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jToolBar1 = new javax.swing.JToolBar();
-        jLabel2 = new javax.swing.JLabel();
+        painelExibição = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -69,10 +71,16 @@ public class PáginaInicial extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/turma.jpg"))); // NOI18N
-        jLabel2.setMaximumSize(new java.awt.Dimension(1200, 700));
-        jLabel2.setMinimumSize(new java.awt.Dimension(500, 300));
+        javax.swing.GroupLayout painelExibiçãoLayout = new javax.swing.GroupLayout(painelExibição);
+        painelExibição.setLayout(painelExibiçãoLayout);
+        painelExibiçãoLayout.setHorizontalGroup(
+            painelExibiçãoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        painelExibiçãoLayout.setVerticalGroup(
+            painelExibiçãoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 472, Short.MAX_VALUE)
+        );
 
         jMenu1.setText("Arquivo");
 
@@ -191,14 +199,14 @@ public class PáginaInicial extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 129, Short.MAX_VALUE))
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(painelExibição, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE))
+                .addComponent(painelExibição, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -210,8 +218,12 @@ public class PáginaInicial extends javax.swing.JFrame {
 
     private void insereProfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insereProfActionPerformed
         // TODO add your handling code here:
-//        Professor_Tela pt=new Professor_Tela(null);
-//        pt.setVisible(true);
+        Professor_Tela pt=new Professor_Tela();
+        JLabel s=new JLabel();
+        s.setText("okookok");
+//        s.setVisible(true);
+        s.setSize(50, 100);
+    this.painelExibição.add(s);
     }//GEN-LAST:event_insereProfActionPerformed
 
     private void insTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insTurmaActionPerformed
@@ -223,14 +235,12 @@ public class PáginaInicial extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
-        Cae_Profs cp = new Cae_Profs();
-        cp.setVisible(true);
+//        Cae_Profs cp = new Cae_Profs();
+//        cp.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void editDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDisciplinaActionPerformed
         // TODO add your handling code here:
-        Disciplina_Tela d = new Disciplina_Tela();
-        d.setVisible(true);
 
     }//GEN-LAST:event_editDisciplinaActionPerformed
 
@@ -247,56 +257,55 @@ public class PáginaInicial extends javax.swing.JFrame {
 
     private void ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfessorActionPerformed
         // TODO add your handling code here:
-        Consulta_Prof cp=new Consulta_Prof("consultaP");
-        cp.setVisible(true);
+//        Consulta_Prof cp=new Consulta_Prof("consultaP");
+//        cp.setVisible(true);
     }//GEN-LAST:event_ProfessorActionPerformed
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                PáginaInicial dialog = new PáginaInicial(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PáginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                PáginaInicial dialog = new PáginaInicial(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Professor;
     private javax.swing.JMenuItem editDisciplina;
     private javax.swing.JMenuItem insTurma;
     private javax.swing.JMenuItem insereProf;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -318,5 +327,6 @@ public class PáginaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JPanel painelExibição;
     // End of variables declaration//GEN-END:variables
 }
