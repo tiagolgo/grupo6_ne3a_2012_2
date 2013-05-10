@@ -4,10 +4,17 @@
  */
 package visão;
 
-import java.awt.Component;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import modelo.Pessoa.Professor;
+import visão.Suprimento.Distribuição_Tela;
+import visão.Afastamento.Afastados;
+import visão.Cancelamento.Cancelamento_Tela;
+import visão.Afastamento.Inserir_Afastamento;
+import visão.Cancelamento.Cancelamentos;
+import visão.Professor.Professor_Tela;
+import visão.Professor.Select_Professor;
+import visão.Substituicao.Cadastro_Substituição;
+import visão.Turma.Inserir_Disciplina;
+import visão.Turma.Turma_Tela;
+import visão.newpackage.Substituição;
 
 /**
  *
@@ -18,11 +25,8 @@ public class PáginaInicial extends javax.swing.JFrame {
     /**
      * Creates new form PáginaInicial
      */
-    public PáginaInicial(java.awt.Frame parent, boolean modal) {
-        initComponents();
-    }
-
-    PáginaInicial() {
+    
+    public PáginaInicial() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -47,21 +51,26 @@ public class PáginaInicial extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        insTurma = new javax.swing.JMenuItem();
-        insereProf = new javax.swing.JMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        adiciona_Curso = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        insere_Turma = new javax.swing.JMenuItem();
+        insere_Disciplina = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        editDisciplina = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
-        jMenuItem17 = new javax.swing.JMenuItem();
+        insere_Professor = new javax.swing.JMenuItem();
+        prof_Alteracao = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
-        Professor = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu11 = new javax.swing.JMenu();
+        insere_Afastamento = new javax.swing.JMenuItem();
+        todos_Afastados = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        insere_Suprimento = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        insere_Cancelamento = new javax.swing.JMenuItem();
+        todos_Cancelamentos = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        insere_Substituicao = new javax.swing.JMenuItem();
+        exibe_Substituicoes = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -79,12 +88,17 @@ public class PáginaInicial extends javax.swing.JFrame {
         );
         painelExibiçãoLayout.setVerticalGroup(
             painelExibiçãoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
+            .addGap(0, 509, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Arquivo");
 
         jMenuItem3.setText("Fechar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem12.setText("Gerar Suprimento");
@@ -103,90 +117,145 @@ public class PáginaInicial extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu5.setText("Inserir");
+        jMenu5.setText("Configurações");
         jMenu5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu5ActionPerformed(evt);
             }
         });
 
-        jMenuItem4.setText("Disciplinas");
-        jMenu5.add(jMenuItem4);
+        jMenu8.setText("Curso");
 
-        insTurma.setText("Turmas");
-        insTurma.addActionListener(new java.awt.event.ActionListener() {
+        adiciona_Curso.setText("Adicionar");
+        adiciona_Curso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insTurmaActionPerformed(evt);
+                adiciona_CursoActionPerformed(evt);
             }
         });
-        jMenu5.add(insTurma);
+        jMenu8.add(adiciona_Curso);
 
-        insereProf.setText("Professores");
-        insereProf.addActionListener(new java.awt.event.ActionListener() {
+        jMenu5.add(jMenu8);
+
+        jMenu7.setText("Turma");
+
+        insere_Turma.setText("Nova Turma");
+        insere_Turma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insereProfActionPerformed(evt);
+                insere_TurmaActionPerformed(evt);
             }
         });
-        jMenu5.add(insereProf);
+        jMenu7.add(insere_Turma);
+
+        insere_Disciplina.setText("Inserir Disciplina");
+        insere_Disciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insere_DisciplinaActionPerformed(evt);
+            }
+        });
+        jMenu7.add(insere_Disciplina);
+
+        jMenu5.add(jMenu7);
 
         jMenuBar1.add(jMenu5);
 
-        jMenu2.setText("Editar");
+        jMenu2.setText("Professor");
 
-        editDisciplina.setText("Disciplinas");
-        editDisciplina.addActionListener(new java.awt.event.ActionListener() {
+        insere_Professor.setText("Cadastrar");
+        insere_Professor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editDisciplinaActionPerformed(evt);
+                insere_ProfessorActionPerformed(evt);
             }
         });
-        jMenu2.add(editDisciplina);
+        jMenu2.add(insere_Professor);
 
-        jMenuItem8.setText("Turmas");
-        jMenu2.add(jMenuItem8);
-
-        jMenuItem9.setText("Professor(es)");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+        prof_Alteracao.setText("Visualizar Todos");
+        prof_Alteracao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
+                prof_AlteracaoActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem9);
+        jMenu2.add(prof_Alteracao);
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Opções");
-
-        jMenuItem15.setText("Enviar Suprimento");
-        jMenu4.add(jMenuItem15);
-
-        jMenuItem16.setText("Enviar Cancelamento");
-        jMenu4.add(jMenuItem16);
-
-        jMenuItem17.setText("Enviar Substituição");
-        jMenu4.add(jMenuItem17);
-
-        jMenuBar1.add(jMenu4);
-
-        jMenu6.setText("Consulta");
+        jMenu6.setText("Opções");
         jMenu6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu6ActionPerformed(evt);
             }
         });
 
-        Professor.setText("Professor");
-        Professor.addActionListener(new java.awt.event.ActionListener() {
+        jMenu11.setText("Afastamento");
+
+        insere_Afastamento.setText("Novo");
+        insere_Afastamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProfessorActionPerformed(evt);
+                insere_AfastamentoActionPerformed(evt);
             }
         });
-        jMenu6.add(Professor);
+        jMenu11.add(insere_Afastamento);
 
-        jMenuItem6.setText("jMenuItem6");
-        jMenu6.add(jMenuItem6);
+        todos_Afastados.setText("Visualizar Todos");
+        todos_Afastados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                todos_AfastadosActionPerformed(evt);
+            }
+        });
+        jMenu11.add(todos_Afastados);
 
-        jMenuItem7.setText("jMenuItem7");
-        jMenu6.add(jMenuItem7);
+        jMenu6.add(jMenu11);
+
+        jMenu4.setText("Suprimento");
+
+        insere_Suprimento.setText("Novo");
+        insere_Suprimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insere_SuprimentoActionPerformed(evt);
+            }
+        });
+        jMenu4.add(insere_Suprimento);
+
+        jMenu6.add(jMenu4);
+
+        jMenu9.setText("Cancelamento");
+
+        insere_Cancelamento.setText("Novo");
+        insere_Cancelamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insere_CancelamentoActionPerformed(evt);
+            }
+        });
+        jMenu9.add(insere_Cancelamento);
+
+        todos_Cancelamentos.setText("Visualizar Todos");
+        todos_Cancelamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                todos_CancelamentosActionPerformed(evt);
+            }
+        });
+        jMenu9.add(todos_Cancelamentos);
+
+        jMenu6.add(jMenu9);
+
+        jMenu10.setText("Substituição");
+
+        insere_Substituicao.setText("Novo");
+        insere_Substituicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insere_SubstituicaoActionPerformed(evt);
+            }
+        });
+        jMenu10.add(insere_Substituicao);
+
+        exibe_Substituicoes.setText("Visualizar Substituições");
+        exibe_Substituicoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exibe_SubstituicoesActionPerformed(evt);
+            }
+        });
+        jMenu10.add(exibe_Substituicoes);
+
+        jMenu6.add(jMenu10);
 
         jMenuBar1.add(jMenu6);
 
@@ -198,7 +267,7 @@ public class PáginaInicial extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 129, Short.MAX_VALUE))
+                .addGap(197, 312, Short.MAX_VALUE))
             .addComponent(painelExibição, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -216,33 +285,11 @@ public class PáginaInicial extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu5ActionPerformed
 
-    private void insereProfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insereProfActionPerformed
+    private void insere_ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_ProfessorActionPerformed
         // TODO add your handling code here:
-        Professor_Tela pt=new Professor_Tela();
-        JLabel s=new JLabel();
-        s.setText("okookok");
-//        s.setVisible(true);
-        s.setSize(50, 100);
-    this.painelExibição.add(s);
-    }//GEN-LAST:event_insereProfActionPerformed
+        new Professor_Tela().setVisible(true);
 
-    private void insTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insTurmaActionPerformed
-        // TODO add your handling code here:
-        Turma_Tela tur = new Turma_Tela();
-        tur.setVisible(true);
-
-    }//GEN-LAST:event_insTurmaActionPerformed
-
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        // TODO add your handling code here:
-//        Cae_Profs cp = new Cae_Profs();
-//        cp.setVisible(true);
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
-
-    private void editDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDisciplinaActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_editDisciplinaActionPerformed
+    }//GEN-LAST:event_insere_ProfessorActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
         // TODO add your handling code here:
@@ -255,11 +302,65 @@ public class PáginaInicial extends javax.swing.JFrame {
         System.out.println("ok");
     }//GEN-LAST:event_jMenu6ActionPerformed
 
-    private void ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfessorActionPerformed
+    private void adiciona_CursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adiciona_CursoActionPerformed
+        // TODO add your handling code here
+        new Curso_Tela().setVisible(true);
+    }//GEN-LAST:event_adiciona_CursoActionPerformed
+
+    private void insere_TurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_TurmaActionPerformed
         // TODO add your handling code here:
-//        Consulta_Prof cp=new Consulta_Prof("consultaP");
-//        cp.setVisible(true);
-    }//GEN-LAST:event_ProfessorActionPerformed
+        new Turma_Tela().setVisible(true);
+    }//GEN-LAST:event_insere_TurmaActionPerformed
+
+    private void insere_DisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_DisciplinaActionPerformed
+        // TODO add your handling code here:
+        new Inserir_Disciplina().setVisible(true);
+    }//GEN-LAST:event_insere_DisciplinaActionPerformed
+
+    private void prof_AlteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prof_AlteracaoActionPerformed
+        // TODO add your handling code here:
+        new Select_Professor().setVisible(true);
+    }//GEN-LAST:event_prof_AlteracaoActionPerformed
+
+    private void insere_AfastamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_AfastamentoActionPerformed
+        // TODO add your handling code here:
+        new Inserir_Afastamento().setVisible(true);
+    }//GEN-LAST:event_insere_AfastamentoActionPerformed
+
+    private void insere_SuprimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_SuprimentoActionPerformed
+        // TODO add your handling code here:
+        new Distribuição_Tela().setVisible(true);
+    }//GEN-LAST:event_insere_SuprimentoActionPerformed
+
+    private void insere_CancelamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_CancelamentoActionPerformed
+        // TODO add your handling code here:
+        new Cancelamento_Tela().setVisible(true);
+    }//GEN-LAST:event_insere_CancelamentoActionPerformed
+
+    private void insere_SubstituicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insere_SubstituicaoActionPerformed
+        // TODO add your handling code here:
+        new Substituição().setVisible(true);
+    }//GEN-LAST:event_insere_SubstituicaoActionPerformed
+
+    private void todos_AfastadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todos_AfastadosActionPerformed
+        // TODO add your handling code here:
+        new Afastados().setVisible(true);
+    }//GEN-LAST:event_todos_AfastadosActionPerformed
+
+    private void todos_CancelamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todos_CancelamentosActionPerformed
+        // TODO add your handling code here:
+        new Cancelamentos().setVisible(true);
+    }//GEN-LAST:event_todos_CancelamentosActionPerformed
+
+    private void exibe_SubstituicoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exibe_SubstituicoesActionPerformed
+        // TODO add your handling code here:
+        new Cadastro_Substituição().setVisible(true);
+    }//GEN-LAST:event_exibe_SubstituicoesActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -288,45 +389,39 @@ public class PáginaInicial extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PáginaInicial dialog = new PáginaInicial(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+       new PáginaInicial().setVisible(true);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem Professor;
-    private javax.swing.JMenuItem editDisciplina;
-    private javax.swing.JMenuItem insTurma;
-    private javax.swing.JMenuItem insereProf;
+    private javax.swing.JMenuItem adiciona_Curso;
+    private javax.swing.JMenuItem exibe_Substituicoes;
+    private javax.swing.JMenuItem insere_Afastamento;
+    private javax.swing.JMenuItem insere_Cancelamento;
+    private javax.swing.JMenuItem insere_Disciplina;
+    private javax.swing.JMenuItem insere_Professor;
+    private javax.swing.JMenuItem insere_Substituicao;
+    private javax.swing.JMenuItem insere_Suprimento;
+    private javax.swing.JMenuItem insere_Turma;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
+    private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel painelExibição;
+    private javax.swing.JMenuItem prof_Alteracao;
+    private javax.swing.JMenuItem todos_Afastados;
+    private javax.swing.JMenuItem todos_Cancelamentos;
     // End of variables declaration//GEN-END:variables
 }

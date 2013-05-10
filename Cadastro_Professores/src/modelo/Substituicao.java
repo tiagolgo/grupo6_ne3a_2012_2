@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import modelo.curricular.Disciplina;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Substituicao implements Serializable {
@@ -28,14 +29,17 @@ public class Substituicao implements Serializable {
 //    private String motivo;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id_Afastamento")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name="id_Afastado")
     private Professor afastado;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_Substituto")
     private Professor substituto;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name="id_Substituicao")
     private List<Disciplina> disciplinas;
     

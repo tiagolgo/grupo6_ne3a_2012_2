@@ -9,6 +9,7 @@ import java.util.List;
 import modelo.Afastamento;
 import modelo.Pessoa.Professor;
 import modelo.Substituicao;
+import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -31,26 +32,12 @@ public class Dao_Substituicao extends Dao_Basic {
         return this.session.createCriteria(Substituicao.class).add(Restrictions.eq("dataInicio", data)).list();
     }
 
-    public void retorna_AfastadoNome(String nome) {
-    }
+    public List retornaSubstuições() {
+        try {
+            return this.session.createCriteria(Substituicao.class).list();
 
-    public void retorna_AfastadoCpf(Long cpf) {
-    }
-
-    public void retorna_AfastadoRg(Long rg) {
-    }
-
-    public void getSubst_AfastadoNome(String afastado) {
-    }
-
-    public void getSubst_AfastadoRg(Long Rg) {
-    }
-
-    public void getSubst_AfastadoCpf(Long cpf) {
-    }
-    
-    public List retornaTodos(){
-        List list = this.session.createSQLQuery("select a.id_Afastado from Afastamento a").list();
-        return this.session.createQuery("from Professor p where p.id in (:ids)").setParameterList("ids", list).list();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

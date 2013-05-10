@@ -30,4 +30,18 @@ public class Dao_Curso extends Dao_Basic {
     public List todos(){
         return this.session.createCriteria(Curso.class).list();
     }
+    
+    public Object consultaDuplicidade(int cod, String nome){
+        return this.session.createCriteria(Curso.class)
+                .add(Restrictions.eq("codigo", cod))
+                .add(Restrictions.eq("nome", nome))
+                .list();
+//        if(result==null){
+//            System.out.println("null");
+//            return true;
+//        }else{ 
+//            System.out.println("not null");
+//            return false;
+//        }
+    }
 }

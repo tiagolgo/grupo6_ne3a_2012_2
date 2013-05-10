@@ -19,9 +19,9 @@ public class Dao_Disciplina extends Dao_Basic {
     public List get_DisciplinaNome(String nome) {
         return this.session.createCriteria(Disciplina.class).add(Restrictions.eq("nome", nome)).list();
     }
-    
+
     public List get_DisciplinaTrechoNome(String nome) {
-        return this.session.createCriteria(Disciplina.class).add(Restrictions.like("nome", "%"+nome+"%")).list();
+        return this.session.createCriteria(Disciplina.class).add(Restrictions.like("nome", "%" + nome + "%")).list();
     }
 
     public List get_DisciplinaCodigo(int codigo) {
@@ -29,19 +29,26 @@ public class Dao_Disciplina extends Dao_Basic {
     }
 
     public List get_DisciplinaAtribuida(Boolean cond) {
-        return this.session.createCriteria(Disciplina.class).add(Restrictions.eq("atribuida", cond)).list();
+        return this.session.createQuery(
+                "from Disciplina where id_Professor=null")
+                .list();
     }
-    
-    public List<Disciplina> get_DisciplinaId(Integer id){
+
+    public List<Disciplina> get_DisciplinaId(Integer id) {
 //        return this.session.createSQLQuery("select*from Disciplina where id_Matriz=?").setInteger(0, id).list();
         return this.session.createCriteria(Disciplina.class).add(Restrictions.eq("cargaHoraria", id)).list();
-    } 
-    
-    public void inserirIdProf(int id_Professor){
+    }
+
+    public void inserirIdProf(int id_Professor) {
         this.session.createSQLQuery("UPDATE Turma SET seriacao='b' WHERE id=?")
                 .setInteger(0, id_Professor).executeUpdate();
 //        System.out.println(executeUpdate);
     }
-    
-    
+
+    public List retorna_DisciplinasAfastamento(int id) {
+        return this.session.createQuery(
+                "from Disciplina where id_Afastamento in (select id from Afastamento where (suprido = :status and id_Afastado = :id))")
+                .setParameter("status", false)
+                .setParameter("id", id).list();
+    }
 }

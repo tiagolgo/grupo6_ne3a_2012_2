@@ -37,8 +37,10 @@ public class Dao_Suprimento extends Dao_Basic {
     public void consulta_ProfessorNome(String nome) {
     }
     
-    public void persistir(Object o){
-        this.session.save(o);
-        this.retornaTransaction().commit();
+    public List retorna_SuprimentoID(int id){
+        return this.session.createQuery("from Suprimento where id_Professor= :id")
+                .setParameter("id", id).list();
     }
+    
+    
 }

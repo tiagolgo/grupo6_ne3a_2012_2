@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import modelo.curricular.Disciplina;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Cancelamento implements Serializable {
@@ -21,18 +22,17 @@ public class Cancelamento implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    
 //    @Column(length = 8)
     private String data_Cancelamento;
-    
 //    @Column(length = 30)
     private String motivo;
-    
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_professor")
     private Professor professor;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_Cancelamento")
     private List<Disciplina> disciplina;
     
@@ -62,16 +62,14 @@ public class Cancelamento implements Serializable {
     public void setDisciplinas(List<Disciplina> disciplina) {
         this.disciplina = disciplina;
     }
-    
-    public void setDisciplina(Disciplina d){
+
+    public void setDisciplina(Disciplina d) {
         this.disciplina.add(d);
     }
 
     public void setInscrição(int inscrição) {
         this.inscrição = inscrição;
     }
-    
-    
 
     //Getters
     public int getId() {
@@ -97,5 +95,4 @@ public class Cancelamento implements Serializable {
     public int getInscrição() {
         return inscrição;
     }
-    
 }

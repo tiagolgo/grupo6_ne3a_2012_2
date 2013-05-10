@@ -16,8 +16,10 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames={"cpf"})});
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "P")
@@ -34,12 +36,14 @@ public class Pessoa implements Serializable {
     
     private String municipio;//local nascimento
     
+    private String estado;
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_Rg")
     private RG rg;
     
     @Column(unique = true, length = 11)
-    private Long cpf;
+    private String cpf;
     
     @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
@@ -83,12 +87,15 @@ public class Pessoa implements Serializable {
         this.municipio = municipio;
     }
 
-   
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+       
     public void setRg(RG rg) {
         this.rg = rg;
     }
 
-    public void setCpf(Long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -136,12 +143,16 @@ public class Pessoa implements Serializable {
     public String getMunicipio() {
         return municipio;
     }
+    
+    public String getEstado(){
+        return estado;
+    }
 
     public RG getRg() {
         return rg;
     }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 

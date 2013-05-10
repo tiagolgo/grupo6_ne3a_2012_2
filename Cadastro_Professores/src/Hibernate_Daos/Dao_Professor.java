@@ -6,7 +6,9 @@ package Hibernate_Daos;
 
 import java.util.List;
 import modelo.Pessoa.Professor;
+import modelo.Suprimento;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -58,7 +60,9 @@ public class Dao_Professor extends Dao_Basic<Professor> {
     }
 
     public boolean deletaRg(Long rg) {
-        Query cq = this.session.createQuery("delete from Professor where id=(select id from Rg where id_professor=?)").setLong("rg", rg);
+        Query cq = this.session.createQuery(
+                "delete from Professor where id=(select id from Rg where id_professor=:idp)")
+                .setParameter("idp", rg);
         int eu = cq.executeUpdate();
         if (eu == 0) {
             return false;
@@ -70,4 +74,9 @@ public class Dao_Professor extends Dao_Basic<Professor> {
     public List listaNomes(){
         return this.session.createSQLQuery("SELECT nome FROM Pessoa where tipo=?").setParameter(0, "P").list();
     }
+    
+    public List professor_NomeRgCpf(){
+        return this.session.createSQLQuery("SELECT nome, cpf FROM Pessoa").list();
+      
+    } 
 }

@@ -4,7 +4,6 @@ package Hibernate_Daos;
 //import Tarefa.Estoque;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 class Dao_Basic<T> {
 
@@ -14,21 +13,14 @@ class Dao_Basic<T> {
         this.session = sessão;
     }
 
-    public Transaction retornaTransaction() {
-        Transaction tx = this.session.beginTransaction();
-        return tx;
-    }
-
     //salva ou atualiza objeto
-    public void persiste(Object obj) throws Exception {
+    public void persiste(Object obj) {
         this.session.saveOrUpdate(obj);
-        retornaTransaction().commit();
     }
 
     //deleta um objeto
     public void deleta(Object obj) {
         this.session.delete(obj);
-        retornaTransaction().commit();
     }
 
     //retorna lista de objetos

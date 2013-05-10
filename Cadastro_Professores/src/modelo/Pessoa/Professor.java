@@ -3,18 +3,24 @@ package modelo.Pessoa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import modelo.curricular.Disciplina;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @DiscriminatorValue(value = "P")
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
 public class Professor extends Servidor {
 
     private String vinculo;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_professor")
     private List<Disciplina> disciplina;
 

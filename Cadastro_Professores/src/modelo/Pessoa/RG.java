@@ -9,18 +9,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Administrador
  */
 @Entity
+//@Table(uniqueConstraints = {
+//    @UniqueConstraint(columnNames = {"número"})})
 public class RG implements Serializable {
 
     @Id
     @GeneratedValue
     private int id;
-    @Column(length = 9, unique = true)
+    @Column(length = 9)
     private Long número;
     @Column(length = 8)
     private String emissão;

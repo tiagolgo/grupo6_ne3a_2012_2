@@ -4,6 +4,7 @@
  */
 package Hibernate_Daos;
 
+import java.util.List;
 import modelo.Cancelamento;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -14,7 +15,6 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Dao_Cancelamento extends Dao_Basic {
 
-
     public Dao_Cancelamento(Session sessao) {
         super(sessao);
     }
@@ -22,4 +22,15 @@ public class Dao_Cancelamento extends Dao_Basic {
     public Cancelamento retornaPorData(String data) {
         return (Cancelamento) this.session.createCriteria(Cancelamento.class).add(Restrictions.eq("data_Cancelamento", data));
     }
+
+    public List retornaCancelamentos() {
+        try {
+            return this.session.createCriteria(Cancelamento.class).list();
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+   
 }

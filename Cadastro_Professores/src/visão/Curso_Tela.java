@@ -6,10 +6,15 @@ package visão;
 
 import Hibernate_Daos.Dao_Curso;
 import Sessão.Sessão;
+import java.awt.HeadlessException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.curricular.Curso;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -20,10 +25,14 @@ public class Curso_Tela extends javax.swing.JFrame {
     /**
      * Creates new form Curso_Tela
      */
+    private Session sessão;
+
     public Curso_Tela() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        this.sessão = new Sessão().retornaSession();
     }
 
     /**
@@ -85,7 +94,7 @@ public class Curso_Tela extends javax.swing.JFrame {
             }
         });
 
-        cancelarCurso.setText("Cancelar");
+        cancelarCurso.setText("Sair");
         cancelarCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarCursoActionPerformed(evt);
@@ -112,7 +121,7 @@ public class Curso_Tela extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(inserirCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cancelarCurso)
+                        .addComponent(cancelarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -139,19 +148,37 @@ public class Curso_Tela extends javax.swing.JFrame {
     private void inserirCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirCursoActionPerformed
         // TODO add your handling code here:
         if (verificaCampos()) {
-            Dao_Curso dc = new Dao_Curso(new Sessão().retornaSession());
+
+            Dao_Curso dc = new Dao_Curso(this.sessão);
             Curso c = new Curso();
 
             c.setCodigo(Integer.parseInt(this.codigoCurso.getText().toString()));
             c.setNome(this.nomeCurso.getText());
 
+
             try {
+                Transaction tr = this.sessão.beginTransaction();
                 dc.persiste(c);
+
+                tr.commit();
+
                 limpaCampos();
+
                 JOptionPane.showMessageDialog(null, "Curso Inserido!");
-            } catch (Exception ex) {
-                Logger.getLogger(Curso_Tela.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (HibernateException | HeadlessException ex) {
+                this.sessão.beginTransaction().rollback();
+
+                String ts = ex.getCause().toString();
+
+                if (ts.contains("Duplicate entry")) {
+                    
+                    JOptionPane.showMessageDialog(null, "Já há um Curso cadastrado!");
+                }
+
+            } finally {
             }
+
         }
     }//GEN-LAST:event_inserirCursoActionPerformed
 
@@ -180,8 +207,8 @@ public class Curso_Tela extends javax.swing.JFrame {
         }
         return true;
     }
-    
-    private void limpaCampos(){
+
+    private void limpaCampos() {
         this.codigoCurso.setText(null);
         this.nomeCurso.setText(null);
     }

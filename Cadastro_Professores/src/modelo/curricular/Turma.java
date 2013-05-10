@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -29,10 +30,14 @@ public class Turma implements Serializable {
     private int serie;
     private String seriacao;
     private String turno;
-    @OneToOne(cascade = CascadeType.ALL)
+    
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_Curso")
     private Curso curso;
-    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    
+    @OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "id_Turma")
     private List<Disciplina> disciplina;
 

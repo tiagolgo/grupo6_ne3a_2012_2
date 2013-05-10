@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import modelo.curricular.Disciplina;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Afastamento implements Serializable {
@@ -29,15 +30,19 @@ public class Afastamento implements Serializable {
     private boolean suprido;
 //    @Column(length = 30)
     private String motivo;
-    @OneToOne(cascade = CascadeType.ALL)
+    
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_Afastado")
     private Professor afastado;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    
+    @OneToMany(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "id_Afastamento")
     private List<Disciplina> disciplina;
 
     public Afastamento() {
-        this.disciplina=new ArrayList();
+        this.disciplina = new ArrayList();
     }
 
     //Setters
@@ -72,8 +77,8 @@ public class Afastamento implements Serializable {
     public void setDisciplina(List<Disciplina> disciplina) {
         this.disciplina = disciplina;
     }
-    
-    public void setDisciplina(Disciplina d){
+
+    public void setDisciplina(Disciplina d) {
         this.disciplina.add(d);
     }
 

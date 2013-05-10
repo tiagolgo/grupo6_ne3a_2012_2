@@ -4,6 +4,7 @@
  */
 package visão.newpackage;
 
+import visão.Professor.Consulta_Prof;
 import visão.*;
 import Hibernate_Daos.Dao_Afastamento;
 import Hibernate_Daos.Dao_Substituicao;
@@ -414,17 +415,17 @@ public class Substituição extends javax.swing.JFrame {
     
     private void carregaComboAfastado() {
         Dao_Substituicao ds = new Dao_Substituicao(this.sessão);
-        List<Professor> lp = ds.retornaTodos();
+//        List<Professor> lp = ds.retornaTodos();
 
-        if (!lp.isEmpty()) {
-            this.afastados = new ArrayList();
-            this.afastados = lp;
-            for (Professor professor : lp) {
-                this.select_Afastado.addItem(professor.getNome());
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Não há Professor(es) Afastado(s)!");
-        }
+//        if (!lp.isEmpty()) {
+//            this.afastados = new ArrayList();
+//            this.afastados = lp;
+//            for (Professor professor : lp) {
+//                this.select_Afastado.addItem(professor.getNome());
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Não há Professor(es) Afastado(s)!");
+//        }
 
     }
 
